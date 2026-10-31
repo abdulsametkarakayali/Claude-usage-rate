@@ -15,29 +15,38 @@ macOS menubar widget that shows Claude Code token usage, 5-hour rolling window, 
 - Swift 5.9+
 - Claude Code installed (reads its JSONL logs)
 
-## Build
+## Build and install
 
 ```bash
-swift build -c release
+./Scripts/build_app.sh install
 ```
 
-Binary at `.build/release/ClaudeTokens`.
+Builds `build/ClaudeTokens.app` and copies it to `/Applications/ClaudeTokens.app`. Omit `install` to build only.
 
 ## Run
 
 ```bash
-.build/release/ClaudeTokens
+open /Applications/ClaudeTokens.app
 ```
 
-Appears in the top-right menubar; no Dock icon.
+Shows in the top-right menubar; no Dock icon.
 
-## Install as login item
+## Start at login
 
 ```bash
-mkdir -p ~/Applications/ClaudeTokens
-cp .build/release/ClaudeTokens ~/Applications/ClaudeTokens/
-cp com.claudetokens.widget.plist ~/Library/LaunchAgents/
-launchctl load -w ~/Library/LaunchAgents/com.claudetokens.widget.plist
+./Scripts/install_login_item.sh
+```
+
+Installs `~/Library/LaunchAgents/com.claudetokens.widget.plist`.
+
+## Icon
+
+Pre-rendered at `Resources/AppIcon.icns`. To regenerate from `cpu.fill` SF Symbol:
+
+```bash
+mkdir -p build/AppIcon.iconset
+swift Scripts/make_icon.swift build/AppIcon.iconset
+iconutil -c icns -o Resources/AppIcon.icns build/AppIcon.iconset
 ```
 
 ## Uninstall
@@ -45,7 +54,7 @@ launchctl load -w ~/Library/LaunchAgents/com.claudetokens.widget.plist
 ```bash
 launchctl unload -w ~/Library/LaunchAgents/com.claudetokens.widget.plist
 rm ~/Library/LaunchAgents/com.claudetokens.widget.plist
-rm -rf ~/Applications/ClaudeTokens
+rm -rf /Applications/ClaudeTokens.app
 ```
 
 ## How the window works

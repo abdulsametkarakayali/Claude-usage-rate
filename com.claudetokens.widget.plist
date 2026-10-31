@@ -6,7 +6,7 @@
     <string>com.claudetokens.widget</string>
     <key>ProgramArguments</key>
     <array>
-        <string>/Users/mac/Applications/ClaudeTokens/ClaudeTokens</string>
+        <string>/Applications/ClaudeTokens.app/Contents/MacOS/ClaudeTokens</string>
     </array>
     <key>RunAtLoad</key>
     <true/>
